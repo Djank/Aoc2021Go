@@ -23,7 +23,7 @@ func part1Solution(ints []int) int {
 }
 
 func part2Solution(ints []int) int {
-	// into slide window of 3
+	// into sum of wiundow of 3 elements
 	sums := []int{}
 	sums = append(sums, ints[0]+ints[1]+ints[2])
 	for i := 1; i < len(ints)-2; i += 1 {
