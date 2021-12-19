@@ -32,3 +32,18 @@ func InputToIntegers(str string) []int {
 	}
 	return result
 }
+
+func SplitLineToIntegers(line string, sep string) []int {
+	ints := strings.Split(line, sep)
+	var numbers []int
+	for _, v := range ints {
+		v = strings.Trim(v, " ")
+		number, err := strconv.Atoi(v)
+		if err != nil {
+			log.Printf("Can't convert string %s to int. Line %s", v, line)
+			log.Panic(err)
+		}
+		numbers = append(numbers, number)	
+	}
+	return numbers
+}
