@@ -22,17 +22,17 @@ func Part2() int {
 func part1Solution(lines []string, dimension int) int {
 	lns := parseInput(lines)
 	arr := createArray2D(dimension)
-	for _, l := range lns {
-		if l.from.x != l.to.x && l.from.y != l.to.y {
+	for _, line := range lns {
+		from := line.from
+		dest := line.to
+		if from.x != dest.x && from.y != dest.y {
 			continue
 		}
-		x1, x2 := sortInt(l.from.x, l.to.x)
-		y1, y2 := sortInt(l.from.y, l.to.y)
-		for x := x1; x <= x2; x++ {
-			for y := y1; y <= y2; y++ {
-				arr[x][y] += 1
-			}
+		for !from.equal(dest) {
+			arr[from.x][from.y] += 1
+			from = from.moveTo(dest)
 		}
+		arr[from.x][from.y] += 1
 	}
 	return countGreateThen2(arr)
 }
