@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
-	day3 "github.com/djank/aoc2021go/day3"
+	day "github.com/djank/aoc2021go/day4"
 )
 
 func main() {
-	log.Println("=== DAY 3 ===")
-	log.Println("Day 3\nSolution part 1: ", day3.Part1())
-	log.Println("Solution part 2: ", day3.Part2())
+	log.Println("=== DAY 4 ===")
+	log.Println("Day 4")
+	log.Println("Solution part 1: ", day.Part1())
+	log.Println("Solution part 2: ", day.Part2())
 }
