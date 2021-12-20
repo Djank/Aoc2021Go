@@ -85,13 +85,6 @@ func countGreateThen2(arr [][]int) int {
 	return count
 }
 
-func sortInt(a int, b int) (int, int) {
-	if a > b {
-		return b, a
-	}
-	return a, b
-}
-
 func createArray2D(dimension int) [][]int {
 	arr := make([][]int, dimension)
 	for i, _ := range arr {
