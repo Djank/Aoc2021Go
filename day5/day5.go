@@ -38,7 +38,39 @@ func part1Solution(lines []string, dimension int) int {
 }
 
 func part2Solution(lines []string, dimension int) int {
-	return 0
+	lns := parseInput(lines)
+	arr := createArray2D(dimension)
+	for _, line := range lns {
+		from := line.from
+		dest := line.to
+		for !from.equal(dest) {
+			arr[from.x][from.y] += 1
+			from = from.moveTo(dest)
+		}
+		arr[from.x][from.y] += 1
+	}
+	return countGreateThen2(arr)
+}
+
+func (source Point) moveTo(dest Point) Point {
+	dx := signOf(dest.x - source.x)
+	dy := signOf(dest.y - source.y)
+	return Point{source.x + dx, source.y + dy}
+}
+
+func (source Point) equal(dest Point) bool {
+	return source.x == dest.x && source.y == dest.y
+}
+
+func signOf(num int) int {
+	switch {
+	case num == 0:
+		return 0
+	case num < 0:
+		return -1
+	default:
+		return 1
+	}
 }
 
 func countGreateThen2(arr [][]int) int {
