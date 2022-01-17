@@ -1,7 +1,7 @@
 package aoc
 
 import (
-	"log"
+	//"log"
 	"strings"
 
 	"github.com/djank/aoc2021go/utils"
@@ -16,29 +16,72 @@ func Part1() int {
 func Part2() int {
 	input := utils.ReadFileToString("day14/input.txt")
 	lines := utils.InputToStrings(input)
-	return part2Solution(lines)
+	return len(lines)
+	//return part2Solution(lines)
 }
 
 func part1Solution(lines []string) int {
 	list, transform := ParseInput(lines)
-	log.Println("input list of ", len(list))
-	log.Println("Transforms of ", len(transform))
-	panic("notimplemented")
+	
+	for i := 0; i < 20; i++ {
+		list = Step(list, transform)
+	}
+
+	countOfRunes := make(map[rune]int)
+	for _, sym := range list {
+		countOfRunes[sym.char] = countOfRunes[sym.char] + 1
+	}
+	min, max := 10000000, 0
+	for _, count := range countOfRunes {
+		if count < min {
+			min = count
+		}
+		if count > max {
+			max = count
+		}
+	}
+
+	return max - min
+}
+
+func Step(list []Sym, transform map[string]rune) []Sym {
+	curIndex := 0
+	c := list[curIndex]
+	for c.next != -1 {
+		n := list[c.next]
+		pair := string([]rune {c.char, n.char})
+		newrune, exist := transform[pair]
+		if !exist {
+			continue
+		}
+		middle := Sym { char: newrune, next: c.next}
+		// middle у нас будет под индексом len(list)
+		c.next = len(list)
+		list[curIndex] = c
+		list = append(list, middle)
+		curIndex = middle.next
+		c = n
+	}
+	return list
 }
 
 func ParseInput(lines []string) ([]Sym, map[string]rune) {
 	firstLine := strings.Trim(lines[0], "\r")
 	var syms []Sym
-	var old Sym
+	oldIndex := -1
 	for _,ch := range firstLine {
 		cur := Sym { char: ch, next: -1 }
-		old.next = len(syms)
+		if oldIndex >= 0 {
+			old := syms[oldIndex]
+			old.next = len(syms)
+			syms[oldIndex] = old	
+		}
 		syms = append(syms, cur)
-		old = cur
+		oldIndex += 1
 	}
 
-	var trans map[string]rune
-	for _, line := range lines[3:] {
+	trans := make(map[string]rune) 
+	for _, line := range lines[2:] {
 		parts := strings.Split(line," -> ")
 		trans[parts[0]] = rune(parts[1][0])
 	}

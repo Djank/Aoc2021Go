@@ -43,3 +43,37 @@ CN -> C`,
 		})
 	}
 }
+
+func Benchmark_part1(b *testing.B) {
+	tests := []struct {
+		name string
+		args string
+		want int
+	}{
+		{
+			name: "Small example",
+			args: `NNCB
+
+CH -> B
+HH -> N
+CB -> H
+NH -> C
+HB -> C
+HC -> B
+HN -> C
+NN -> C
+BH -> H
+NC -> B
+NB -> B
+BN -> B
+BB -> N
+BC -> B
+CC -> N
+CN -> C`,
+			want: 1588,
+		},
+	}
+	for n := 0; n < b.N; n++ {
+		part1Solution(utils.InputToStrings(tests[0].args))
+	}
+}
